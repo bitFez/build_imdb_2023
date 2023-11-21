@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %} 
+    <h1>IMDB Clone</h1>
+    <hr>
+    
+    <div class="row align-items-start">
+    {% for film in films %}
+        <div class="col">
+            <div class="card" style="width: 200px;">
+                <a href="{% url 'films:f_detail' film.pk %}">
+                    <img src="{{film.poster}}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <p class="card-text"> 
+                        <a href="{% url 'films:f_detail' film.pk %}">
+                            {{film.title}}
+                        </a> 
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+    
+        
+      
+    
+
+{% endblock content %}
