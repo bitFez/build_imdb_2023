@@ -2,6 +2,36 @@
 
 {% block content %}
     <h1>{{film.title}}</h1>
-    <p>{{film.overview}}</p>
+    
+    <div class="row">
+        <div class="col-4">
+            <img class="img-fluid" src="{{film.poster}}" alt="">
+        </div>
+        <div class="col-8">
+            <p>
+                <span class="badge rounded-pill text-bg-primary">{{film.genre}}</span>
+            </p>
+            <p>{{film.released|date:"Y"}} - {{film.certificate}} - {{dura}}</p>
+            <p>{{film.overview}}</p>
+            <br>
+            <div class="alert alert-light" role="alert">
+                IMDB Rating: <i class="bi bi-star-fill text-warning"></i> <span class="mx-3">8.8/10</span>
+                Your Rating: <i class="bi bi-star text-primary"></i> <span class="mx-3">8/10</span>
+            </div>
+            <br>
+
+            <h2>Top Cast</h2>
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item">{{film.star1}}</li>
+                <li class="list-group-item">{{film.star2}}</li>
+                <li class="list-group-item">{{film.star3}}</li>
+                <li class="list-group-item">{{film.star4}}</li>
+            </ul>
+            <br>
+            <h5>Director: {{film.director}}</h5>
+        </div>
+    </div>
+    
 
 {% endblock content %}

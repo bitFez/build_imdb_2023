@@ -10,5 +10,10 @@ def homepage(request):
 
 def film_detail(request, pk):
     film = get_object_or_404(Film, pk=pk)
-    context = {"film":film}
+    total_seconds= int(film.duration.total_seconds())
+    hours = total_seconds//3600
+    minutes = (total_seconds % 3600 )//60
+    duration = f"{hours}h {minutes}m"
+
+    context = {"film":film, "dura":duration}
     return render(request, "films/f_detail.html", context)
