@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
 
 from . models import Film, Rating
 # Create your views here.
 def homepage(request):
     films = Film.objects.all()
-
+    
     context = {"films":films}
     return render(request, "films/homepage.html", context)
 
