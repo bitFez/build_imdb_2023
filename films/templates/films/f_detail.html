@@ -9,7 +9,9 @@
         </div>
         <div class="col-8">
             <p>
-                <span class="badge rounded-pill text-bg-primary">{{film.genre}}</span>
+                {% for genre in genres %}
+                    <span class="badge rounded-pill text-bg-primary">{{genre}}</span>
+                {% endfor %}
             </p>
             <p>{{film.released|date:"Y"}} - {{film.certificate}} - {{dura}}</p>
             <p>{{film.overview}}</p>

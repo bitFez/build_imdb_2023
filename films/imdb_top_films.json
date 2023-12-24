@@ -11864,7 +11864,7 @@
  {
    "Poster_Link": "https://m.media-amazon.com/images/M/MV5BNjEzYjJmNzgtNDkwNy00MTQ4LTlmMWMtNzA4YjE2NjI0ZDg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX67_CR0,0,67,98_AL_.jpg",
    "Series_Title": "Apollo 13",
-   "Released_Year": "PG",
+   "Released_Year": "1995",
    "Certificate": "U",
    "Runtime": "140 min",
    "Genre": "Adventure, Drama, History",
@@ -12328,5 +12328,23 @@
    "Star4": "Ringo Starr",
    "No_of_Votes": 40351,
    "Gross": "13,780,024"
- }
+ },
+ {
+  "Poster_Link": "https://posterspy.com/wp-content/uploads/2020/12/spiderverse.jpg",
+  "Series_Title": "Spider-Man: Across the Spider-Verse",
+  "Released_Year": "2023",
+  "Certificate": "PG",
+  "Runtime": "140 min",
+  "Genre": "Animation, Action, Adventure",
+  "IMDB_Rating": 8.6,
+  "Overview": "Miles Morales catapults across the multiverse, where he encounters a team of Spider-People charged with protecting its very existence. When the heroes clash on how to handle a new threat, Miles must redefine what it means to be a hero.",
+  "Meta_score": 86,
+  "Director": "Joaquim Dos Santos",
+  "Star1": "Joaquim Dos Santos",
+  "Star2": "Hailee Steinfeld",
+  "Star3": "Brian Tyree Henry",
+  "Star4": "Luna Lauren Velez",
+  "No_of_Votes": 316000,
+  "Gross": "1,794,187"
+}
 ]
