@@ -17,7 +17,7 @@
             <p>{{film.overview}}</p>
             <br>
             <div class="alert alert-light" role="alert">
-                IMDB Rating: <i class="bi bi-star-fill text-warning"></i> <span class="mx-3">8.8/10</span>
+                IMDB Rating: <i class="bi bi-star-fill text-warning"></i> <span class="mx-3">{{film.average_rating|floatformat:1}}/10</span>
                 Your Rating: <i class="bi bi-star text-primary"></i> <span class="mx-3">8/10</span>
             </div>
             <br>
