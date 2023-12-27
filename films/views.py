@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import Avg
 import os, json
 from datetime import timedelta
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
+from random import randint
 
 from . models import Film, Rating
 module_dir = os.path.dirname(__file__)  # get current directory
@@ -34,6 +36,13 @@ def add_films(request):
     msg = f"Added {no_added} films to the database."
     return HttpResponse(msg, content_type="text/plain")
 
+def add_rev(g_film, g_user, g_rating):
+    obj = Rating.objects.update_or_create(
+        film = get_object_or_404(Film, pk=g_film),
+        user = get_object_or_404(User, pk=g_user),
+        rating = g_rating,
+    )
+
 def homepage(request):
     films = Film.objects.all()
     paginator = Paginator(films, 10)
@@ -51,3 +60,11 @@ def film_detail(request, pk):
     genres = film.genre.split(",")
     context = {"film":film, "dura":duration, "genres":genres}
     return render(request, "films/f_detail.html", context)
+
+def add_reviews(request):
+    for j in range(0,10000):
+        for i in range(1,5):
+            filmID = randint(1,692)
+            filmRating = randint(1,10)
+            add_rev(filmID, i, filmRating)
+    return redirect("films:home")
