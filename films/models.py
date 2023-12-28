@@ -29,6 +29,10 @@ class Film(models.Model):
     @property
     def average_rating(self):
         return self.ratings.all().aggregate(models.Avg("rating")).get("rating__avg", 0.0)
+    
+    @property
+    def No_votes(self):
+        return self.ratings.all().aggregate(models.Count("rating")).get("rating__count", 0.0)
 
 class Rating(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE, related_name="ratings")

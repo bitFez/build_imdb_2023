@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from django.db.models import Avg
+from django.db.models import Avg, Count
 import os, json
 from datetime import timedelta
 from django.http import HttpResponse
@@ -10,6 +10,22 @@ from random import randint
 from . models import Film, Rating
 module_dir = os.path.dirname(__file__)  # get current directory
 # Create your views here.
+def top250(request):
+    films = Film.objects.annotate(avr=Avg("ratings__rating"), votes=Count("ratings__rating")).order_by("-avr")[0:250]
+    paginator = Paginator(films, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {"films":films, "page_obj":page_obj}
+    return render(request, "films/homepage.html", context)
+
+def bot250(request):
+    films = Film.objects.annotate(avr=Avg("ratings__rating")).order_by("avr")[0:250]
+    paginator = Paginator(films, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {"films":films, "page_obj":page_obj}
+    return render(request, "films/homepage.html", context)
+
 def add_films(request):
     file_path = os.path.join(module_dir, 'imdb_top_films.json')
     with open(file_path, "r", encoding="utf-8") as f:
@@ -35,7 +51,7 @@ def add_films(request):
         no_added += 1
     msg = f"Added {no_added} films to the database."
     return HttpResponse(msg, content_type="text/plain")
-
+    
 def add_rev(g_film, g_user, g_rating):
     obj = Rating.objects.update_or_create(
         film = get_object_or_404(Film, pk=g_film),
