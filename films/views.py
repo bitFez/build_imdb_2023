@@ -18,6 +18,14 @@ def top250(request):
     context = {"films":films, "page_obj":page_obj}
     return render(request, "films/homepage.html", context)
 
+def most_votes(request):
+    films = Film.objects.annotate(avr=Avg("ratings__rating"), votes=Count("ratings__rating")).order_by("-votes")[0:250]
+    paginator = Paginator(films, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {"films":films, "page_obj":page_obj}
+    return render(request, "films/homepage.html", context)
+
 def bot250(request):
     films = Film.objects.annotate(avr=Avg("ratings__rating")).order_by("avr")[0:250]
     paginator = Paginator(films, 10)
