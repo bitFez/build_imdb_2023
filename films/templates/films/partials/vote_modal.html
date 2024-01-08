@@ -1,0 +1,21 @@
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">{{film.title}}</h5>
+    </div>
+    <div class="modal-body">
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat1" value="1"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML' class="btn btn-primary"> </form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat2" value="2"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat3" value="3"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat4" value="4"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat5" value="5"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat6" value="6"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat7" value="7"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat8" value="8"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat9" value="9"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+        <form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film}}"> <input type="submit" id="rat10" value="10" name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+      <!-- <button type="submit">Rate</button> -->
+    </div>
+</div>

@@ -76,14 +76,33 @@ def homepage(request):
     return render(request, "films/homepage.html", context)
 
 def film_detail(request, pk):
-    film = get_object_or_404(Film, pk=pk)
-    total_seconds= int(film.duration.total_seconds())
-    hours = total_seconds//3600
-    minutes = (total_seconds % 3600 )//60
-    duration = f"{hours}h {minutes}m"
-    genres = film.genre.split(",")
-    context = {"film":film, "dura":duration, "genres":genres}
+    print("Called function")
+    if request.method == "POST":
+        print(f"post request: {request.POST['film']}")
+        obj = Rating.objects.update_or_create(
+            film = request.POST["film"],
+            user = request.user,
+            rating = request.POST["rating"]
+        )
+        rated = Rating.objects.filter(film=obj.film, user=obj.user).first()
+        context = {"rating":rated}
+        return render(request, 'films/partials/user_review.html', context)
+    else:
+        film = get_object_or_404(Film, pk=pk)
+        rating = Rating.objects.filter(user=request.user, film=film).first()
+        total_seconds= int(film.duration.total_seconds())
+        hours = total_seconds//3600
+        minutes = (total_seconds % 3600 )//60
+        duration = f"{hours}h {minutes}m"
+        genres = film.genre.split(",")
+    context = {"film":film, "dura":duration, "genres":genres, "rating":rating}
     return render(request, "films/f_detail.html", context)
+
+def vote(request, id):
+    film = get_object_or_404(Film, pk=id)
+    return render(request, 'films/partials/vote_modal.html', {
+        'film': film,
+    })
 
 def add_reviews(request):
     for j in range(0,10000):

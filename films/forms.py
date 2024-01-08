@@ -1,0 +1,4 @@
+from django import forms
+
+class RatingForm(forms.form):
+    rating = forms.IntegerField(min_value=1, max_value=10)
