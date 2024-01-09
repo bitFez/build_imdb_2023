@@ -87,7 +87,10 @@ def film_detail(request, pk):
         return render(request, 'films/partials/user_review.html', context)
     else:
         film = get_object_or_404(Film, pk=pk)
-        rating = Rating.objects.filter(user=request.user, film=film).first()
+        if request.user.is_authenticated:
+            rating = Rating.objects.filter(user=request.user, film=film).first()
+        else:
+            rating = ""
         total_seconds= int(film.duration.total_seconds())
         hours = total_seconds//3600
         minutes = (total_seconds % 3600 )//60

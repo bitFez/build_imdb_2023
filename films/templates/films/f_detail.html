@@ -33,12 +33,19 @@
                             {% if rating %}                            
                                 <i class="bi bi-star-fill text-primary"></i> <span class="mx-3">{{rating.rating}}</span>
                             {% else %}
-                                <div x-data="{showModal: false}" x-on:keydown.escape="showModal=false">
-                                    <button @click="showModal = true" class="btn btn-outline-primary" data-bs-toggle="#vote_modal">
-                                        <i class="bi bi-star text-warning"></i> <span class="mx-3">Rate</span>
-                                    </button>
+                                <div x-data="{showModal: false}" x-on:keydown.escape="showModal=false" x-on:click.away="showModal = false">
+                                    {% if request.user.is_authenticated %}
+                                        <button @click="showModal = true" class="btn btn-outline-primary" data-bs-toggle="#vote_modal">
+                                            <i class="bi bi-star text-warning"></i> <span class="mx-3">Rate</span>
+                                        </button>
+                                    {% else %}
+                                        <a class="btn btn-outline-primary" href="{% url 'login' %}">
+                                            <i class="bi bi-star text-warning"></i> <span class="mx-3">Rate</span>
+                                        </a>
+                                    {% endif %}
                                     
-                                    <div x-show="showModal" class="modal modal-dialog-centered" x-on:click.away="showModal = false" id="vote_modal" tabindex="-1" aria-hidden="true">
+                                    
+                                    <div x-show="showModal" class="modal modal-dialog-centered" id="vote_modal" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                             <div class="modal-header">
