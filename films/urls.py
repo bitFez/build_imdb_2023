@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from . views import homepage, film_detail, add_films, add_reviews, top250,bot250, most_votes, vote
+from . views import homepage, film_detail, add_films, add_reviews, top250,bot250, most_votes
 
 app_name = "films"
 
@@ -12,5 +12,4 @@ urlpatterns = [
     path("top250", top250, name="top250"),
     path("bot250", bot250, name="bot250"),
     path("most_votes", most_votes, name="most_votes"),
-    path("vote/<int:id>", vote, name="vote")
 ]

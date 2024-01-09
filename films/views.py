@@ -61,7 +61,7 @@ def add_films(request):
     return HttpResponse(msg, content_type="text/plain")
     
 def add_rev(g_film, g_user, g_rating):
-    obj = Rating.objects.update_or_create(
+    obj, created = Rating.objects.get_or_create(
         film = get_object_or_404(Film, pk=g_film),
         user = get_object_or_404(User, pk=g_user),
         rating = g_rating,
@@ -76,15 +76,13 @@ def homepage(request):
     return render(request, "films/homepage.html", context)
 
 def film_detail(request, pk):
-    print("Called function")
     if request.method == "POST":
-        print(f"post request: {request.POST['film']}")
         obj = Rating.objects.update_or_create(
-            film = request.POST["film"],
-            user = request.user,
+            film = get_object_or_404(Film, pk=request.POST["film"]),
+            user = get_object_or_404(User, pk=request.user.id),
             rating = request.POST["rating"]
         )
-        rated = Rating.objects.filter(film=obj.film, user=obj.user).first()
+        rated = Rating.objects.get(film=request.POST["film"], user=request.user)
         context = {"rating":rated}
         return render(request, 'films/partials/user_review.html', context)
     else:
@@ -98,14 +96,8 @@ def film_detail(request, pk):
     context = {"film":film, "dura":duration, "genres":genres, "rating":rating}
     return render(request, "films/f_detail.html", context)
 
-def vote(request, id):
-    film = get_object_or_404(Film, pk=id)
-    return render(request, 'films/partials/vote_modal.html', {
-        'film': film,
-    })
-
 def add_reviews(request):
-    for j in range(0,10000):
+    for j in range(0,100):
         for i in range(1,5):
             filmID = randint(1,692)
             filmRating = randint(1,10)
