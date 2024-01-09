@@ -61,7 +61,7 @@ def add_films(request):
     return HttpResponse(msg, content_type="text/plain")
     
 def add_rev(g_film, g_user, g_rating):
-    obj = Rating.objects.update_or_create(
+    obj, create = Rating.objects.get_or_create(
         film = get_object_or_404(Film, pk=g_film),
         user = get_object_or_404(User, pk=g_user),
         rating = g_rating,
@@ -76,13 +76,27 @@ def homepage(request):
     return render(request, "films/homepage.html", context)
 
 def film_detail(request, pk):
-    film = get_object_or_404(Film, pk=pk)
-    total_seconds= int(film.duration.total_seconds())
-    hours = total_seconds//3600
-    minutes = (total_seconds % 3600 )//60
-    duration = f"{hours}h {minutes}m"
-    genres = film.genre.split(",")
-    context = {"film":film, "dura":duration, "genres":genres}
+    if request.method == "POST":
+        obj = Rating.objects.update_or_create(
+            film = get_object_or_404(Film, pk=request.POST["film"]),
+            user = get_object_or_404(User, pk=request.user.id),
+            rating = request.POST["rating"]
+        )
+        rated = Rating.objects.get(film=request.POST["film"], user=request.user)
+        context = {"rating":rated}
+        return render(request, 'films/partials/user_review.html', context)
+    else:
+        film = get_object_or_404(Film, pk=pk)
+        if request.user.is_authenticated:
+            rating = Rating.objects.filter(user=request.user, film=film).first()
+        else:
+            rating = ""
+        total_seconds= int(film.duration.total_seconds())
+        hours = total_seconds//3600
+        minutes = (total_seconds % 3600 )//60
+        duration = f"{hours}h {minutes}m"
+        genres = film.genre.split(",")
+        context = {"film":film, "dura":duration, "genres":genres, "rating":rating}
     return render(request, "films/f_detail.html", context)
 
 def add_reviews(request):
