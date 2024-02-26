@@ -61,11 +61,28 @@ def add_films(request):
     return HttpResponse(msg, content_type="text/plain")
     
 def add_rev(g_film, g_user, g_rating):
-    obj = Rating.objects.update_or_create(
+    obj, create = Rating.objects.get_or_create(
         film = get_object_or_404(Film, pk=g_film),
         user = get_object_or_404(User, pk=g_user),
         rating = g_rating,
     )
+
+def film_qs(request):
+    if request.method == "POST":
+        certificates, releases, genres,rating_g,rating_l = "","","","",""
+        if request.method["POST"]:
+            films = Film.objects.filter(
+                certificate__in=certificates, 
+                released=releases, 
+                genre__in=genres
+                )
+    else:
+        films = Film.objects.all()
+    paginator = Paginator(films, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {"films":films, "page_obj":page_obj}
+    return render(request, "films/film_qs.html", context)
 
 def homepage(request):
     films = Film.objects.all()
@@ -82,8 +99,25 @@ def film_detail(request, pk):
     minutes = (total_seconds % 3600 )//60
     duration = f"{hours}h {minutes}m"
     genres = film.genre.split(",")
-    context = {"film":film, "dura":duration, "genres":genres}
-    return render(request, "films/f_detail.html", context)
+    context = {"film":film, "genres":genres,"dura":duration}
+    if request.method == "POST":
+        obj = Rating.objects.update_or_create(
+            film = get_object_or_404(Film, pk=request.POST["film"]),
+            user = get_object_or_404(User, pk=request.user.id),
+            rating = request.POST["rating"]
+        )
+        rated = Rating.objects.get(film=request.POST["film"], user=request.user)
+        context["rating"] = rated
+        return render(request, 'films/partials/user_review.html', context)
+    else:
+
+        
+        if request.user.is_authenticated:
+            rating = Rating.objects.filter(user=request.user, film=film).first()
+        else:
+            rating = ""
+        context["rating"] = rating
+        return render(request, "films/f_detail.html", context)
 
 def add_reviews(request):
     for j in range(0,10000):
