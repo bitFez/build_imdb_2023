@@ -24,10 +24,16 @@ class Film(models.Model):
     star4 = models.CharField(max_length=250)
     overview = models.TextField(max_length=1000)
     poster = models.URLField(max_length=200)
+    avg_rating = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.title
     
+    def update_average_rating(self):
+        avg_rating = self.ratings.all().aggregate(models.Avg("rating")).get("rating__avg", 0.0)
+        self.average_rating = avg_rating
+        self.save()
+        
     @property
     def average_rating(self):
         return self.ratings.all().aggregate(models.Avg("rating")).get("rating__avg", 0.0)

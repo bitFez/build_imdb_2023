@@ -1,12 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %} 
-    
-    <div class="alert alert-light" role="alert">
-        <form method="get" action="{% url 'films:qs' %}">
-            {{ form.as_p }}
-            <input type="submit" value="submit" class="btn btn_warning">
-        </form>
+
+    <div class="alert alert-light mt-3" role="alert">
+        <form method="GET" action="{% url 'films:film_search' %}" class="d-flex justify-content-center">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" name="title__icontains" id="id_title__icontains" placeholder="Title Contains">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <select class="form-select" name="certificate" id="id_certificate">
+                  <option selected value="">Film Certification</option>
+                  <option value="U">U</option>
+                  <option value="PG">PG</option>
+                  <option value="12a">12a</option>
+                  <option value="15">15</option>
+                  <option value="18">18</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="avg_rating_min" id="id_avg_rating_0" placeholder="Min Rating">
+              </div>
+              
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="avg_rating_max" id="id_avg_rating_1" placeholder="Max Rating">
+              </div>
+              <div class="col-md-2">
+                <input type="submit" value="submit" class="btn btn-warning">
+              </div>
+            </div>
+          </form>
+          
     </div>
 
     <hr>
@@ -20,8 +46,8 @@
             </a>
             <div class="card-body">
                 <h4>
-                    <i class="bi bi-star-fill text-warning"></i> <span class="me-5">{{film.avr|floatformat:1}}</span>
-                    <i class="bi bi-star text-primary"></i>
+                    <i class="bi bi-star-fill text-warning"></i> <span class="me-5">{{film.average_rating|floatformat:1}}</span>
+                    <i class="bi bi-star text-primary"></i> <span class="me-5">{{film.ratings__rating|floatformat:1}}</span>
                 </h4>
                 <h5><a class="text-decoration-none" href="{% url 'films:f_detail' film.id %}">{{film.title}}</a></h5>
               

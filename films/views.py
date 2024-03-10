@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from random import randint
 
 from . models import Film, Rating
+from . filters import FilmFilter
+
 module_dir = os.path.dirname(__file__)  # get current directory
 # Create your views here.
 def top250(request):
@@ -68,20 +70,11 @@ def add_rev(g_film, g_user, g_rating):
     )
 
 def film_qs(request):
-    if request.method == "POST":
-        certificates, releases, genres,rating_g,rating_l = "","","","",""
-        if request.method["POST"]:
-            films = Film.objects.filter(
-                certificate__in=certificates, 
-                released=releases, 
-                genre__in=genres
-                )
-    else:
-        films = Film.objects.all()
-    paginator = Paginator(films, 10)
+    films = FilmFilter(request.GET, queryset=Film.objects.all())
+    paginator = Paginator(films.qs, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {"films":films, "page_obj":page_obj}
+    context = {"films":films, "page_obj":page_obj, "form":films.form}
     return render(request, "films/film_qs.html", context)
 
 def homepage(request):
